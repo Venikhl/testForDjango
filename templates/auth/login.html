@@ -1,14 +1,14 @@
 {% extends 'core/main_wrapper.html' %}
 
 {% block main %}
-    <section class="vh-100 gradient-custom">
+    <section class="gradient-custom">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <div class="card bg-dark" style="border-radius: 1rem;">
+            <div class="card bg-dark" style="border-radius: 4rem;">
               <div class="card-body p-5 text-center">
 
-                <form class="mb-md-5 mt-md-4 pb-5" action="" method="POST">
+                <form class="mb-md-5 mt-md-4" action="" method="POST">
                     {% csrf_token %}
 
                   <h2 class="fw-bold mb-2 text-uppercase text-white">Log In</h2>
@@ -36,12 +36,12 @@
 {#                  <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign Up</button>#}
 {#                    </div>#}
                     <div class="buttons">
-                        <button class="btn-hover color-2" type="submit">Sign Up</button>
+                        <button class="btn-hover color-2" type="submit">Log In</button>
                     </div>
                 </form>
 
                 <div>
-                  <p class="mb-0 text-white">Don't have an account? <a href="{% url 'register' %}" class="text-blue fw-bold">Sign In</a>
+                  <p class="mb-0 text-white">Don't have an account? <a href="{% url 'register' %}" class="text-blue fw-bold">Sign Up</a>
                   </p>
                 </div>
 

@@ -1,42 +1,50 @@
 {% extends 'core/main_wrapper.html' %}
 {% block main %}
-<section class="vh-100 gradient-custom">
+<section class="gradient-custom">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card bg-dark" style="border-radius: 1rem;">
+        <div class="card bg-dark" style="border-radius: 4rem;">
           <div class="card-body p-5 text-center">
 
-            <div class="mb-md-5 mt-md-4 pb-5">
 
+            <form class="mb-md-1 mt-md-1" action="" method="POST">
+                {% csrf_token %}
               <h2 class="fw-bold mb-2 text-uppercase text-white">Sign Up</h2>
               <p class="text-white-50 mb-5 text-white">Please enter your data to register a new account!</p>
 
+                  {% if form.errors %}
+
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <strong>Error!</strong> Please make sure that input data is correct.
+                          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                  {% endif %}
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
-                  <label for="floatingUsername">Username</label>
+                  <input type="text" class="form-control" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" placeholder="Username">
+                  <label for="{{ form.username.id_for_label }}">Username</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" placeholder="Email">
-                  <label for="floatingInput">Email address</label>
+                  <input type="email" class="form-control" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" placeholder="Email">
+                  <label for="{{ form.email.id_for_label }}">Email address</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
+                  <input type="password" class="form-control" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}" placeholder="Password">
+                  <label for="{{ form.password1.id_for_label }}">Password</label>
                 </div>
 
-                <div class="form-floating pb-3">
-                  <input type="password" class="form-control" id="floatingRepeatPassword" placeholder="Repeat password">
-                  <label for="floatingRepeatPassword">Repeat password</label>
+                <div class="form-floating">
+                  <input type="password" class="form-control" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}" placeholder="Repeat password">
+                  <label for="{{ form.password2.id_for_label }}">Repeat password</label>
                 </div>
 
-              <p class="small mb-5 pb-lg-2"><a class="text-white-50" href="#!">Forgot password?</a></p>
+              <div class="buttons">
+                  <button class="btn-hover color-2" type="submit">Sign Up</button>
+              </div>
 
-              <button class="btn btn-outline-light btn-lg px-5" type="submit">Log in</button>
-
-            </div>
+            </form>
 
             <div>
               <p class="mb-0 text-white">Already have an account? <a href="{% url 'login' %}" class="text-blue fw-bold">Log in</a>
@@ -50,3 +58,4 @@
   </div>
 </section>
 {% endblock  %}
+<!-- registration/register.html -->

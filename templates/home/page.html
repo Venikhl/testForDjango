@@ -1,12 +1,147 @@
-{% extends 'core/main_wrapper.html' %}
+{#{% extends 'core/main_wrapper.html' %}#}
+{##}
+{#{% block main %}#}
+{##}
+{#<main class="px-3">#}
+{#    <h1>Cover your page.</h1>#}
+{#    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>#}
+{#    <p class="lead">#}
+{#      <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>#}
+{#    </p>#}
+{#</main>#}
+{#{% endblock  %}#}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <!-- divinectorweb.com -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Web layout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
 
-{% block main %}
+    <link href="{% static 'assets/css/home_page.css' %}" rel="stylesheet">
+    <style>
+    @font-face {
+        font-family: 'GlassGauge';
+        src: url({% static 'assets/fonts/AlegReg.ttf' %}) format('truetype');
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="wrapper row">
+          <button class="nav-toggle">
+            <span class="icon-area"></span>
+          </button>
+          <a class="logo" href="#"  style="font-family: 'GlassGauge', sans-serif;">StoryMarks</a>
+          <nav class="nav">
+            <ul>
+              <li><a href="{% url 'main_page' %}">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Portfolio</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
 
-<main class="px-3">
-    <h1>Cover your page.</h1>
-    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-    <p class="lead">
-      <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Learn more</a>
-    </p>
-</main>
-{% endblock  %}
+      <div class="banner">
+        <div class="content">
+            <h2>Discover. Track. Dive In.</h2>
+            <p>Unleash Your Passion. Stay in Sync. Explore Today</p>
+            <a href="{% url 'register' %}">Sign Up</a>
+        </div>
+      </div>
+
+
+
+      <script>
+        const cusMenu = document.querySelector(".nav-toggle");
+            const nav = document.querySelector(".nav");
+
+            cusMenu.addEventListener("click", () => {
+            nav.classList.toggle("openMenu");
+        });
+      </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Моя страница</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #planet-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    .content {
+      /* Стили для содержимого вашей страницы */
+    }
+  </style>
+</head>
+<body>
+  <div id="planet-container"></div>
+  <div class="content">
+    <!-- Содержимое вашей страницы здесь -->
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    // Создание сцены
+    var scene = new THREE.Scene();
+
+    // Создание камеры
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    // Создание рендерера
+    var renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById("planet-container").appendChild(renderer.domElement);
+
+    // Создание геометрии планеты
+    var geometry = new THREE.SphereGeometry(1, 32, 32);
+
+    // Создание материала планеты
+    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+    // Создание меша планеты
+    var planet = new THREE.Mesh(geometry, material);
+    scene.add(planet);
+
+    // Добавление слушателя события движения мыши
+    document.addEventListener("mousemove", onMouseMove, false);
+
+    // Обработчик события движения мыши
+    function onMouseMove(event) {
+      // Получение координат мыши относительно окна
+      var mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      var mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Вращение планеты в зависимости от положения мыши
+      planet.rotation.x = mouseY / 5;
+      planet.rotation.y = mouseX / 5;
+    }
+
+    // Анимация планеты
+    function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

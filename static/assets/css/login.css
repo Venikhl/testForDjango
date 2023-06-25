@@ -1,0 +1,37 @@
+body{
+background:#151845;
+}
+.container{
+height:600px;
+width:350px;
+margin:0;
+}
+.planet{
+width:130px;
+height:130px;
+border-radius:50%;
+background:#ff9933;
+position:absolute;
+top:30%;
+right:30%;
+}
+.rotation{
+height:250px;
+width:250px;
+border-radius:50%;
+top:22%;
+right:10%;
+animation:revolve 3s linear infinite;
+}
+@keyframes revolve
+{
+100%{
+transform:rotate(360deg);
+      }
+}
+.satellite{
+height:50px;
+width:50px;
+background:#00ccff;
+border-radius:50%;
+}

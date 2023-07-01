@@ -54,7 +54,11 @@
         <div class="content">
             <h2>Discover. Track. Dive In.</h2>
             <p>Unleash Your Passion. Stay in Sync. Explore Today</p>
-            <a href="{% url 'register' %}">Sign Up</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'choose-entertainments' %}">Go to catalog</a>
+            {% else %}
+                <a href="{% url 'register' %}">Sign Up</a>
+            {% endif %}
         </div>
       </div>
 

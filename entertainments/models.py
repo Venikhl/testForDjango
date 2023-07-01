@@ -9,7 +9,8 @@ class Movie(models.Model):
     rating = models.FloatField(default=0)
     genre = models.CharField(max_length=100, null=True)
     release_year = models.PositiveIntegerField(default=0)
-
+    image = models.ImageField(upload_to='movies/', null=True, blank=True)
+    description = models.TextField(null=True)
 
 class TVSeries(models.Model):
     title = models.CharField(max_length=100)
@@ -18,7 +19,8 @@ class TVSeries(models.Model):
     rating = models.FloatField(default=0)
     genre = models.CharField(max_length=100, null=True)
     release_year = models.PositiveIntegerField(default=0)
-
+    image = models.ImageField(upload_to='tvseries/', null=True, blank=True)
+    description = models.TextField(null=True)
 
 class Book(models.Model):
     title = models.CharField(max_length=100)
@@ -27,6 +29,9 @@ class Book(models.Model):
     rating = models.FloatField(default=0)
     genre = models.CharField(max_length=100, null=True)
     publication_year = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='books/', null=True, blank=True)
+    description = models.TextField(null=True)
+
 
 
 class Progress(models.Model):

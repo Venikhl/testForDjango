@@ -1,0 +1,203 @@
+{% extends 'core/main_wrapper.html' %}
+{% load static %}
+
+{% block main %}
+
+    <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cards</title>
+  <link rel="stylesheet" href="css/bootstrap-reboot.min.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    body {
+      font-family: 'Teko', sans-serif;
+      background: #fff;
+      position: relative;
+      background: #000;
+      display: grid;
+    }
+
+    .section {
+      background: #222;
+      overflow: hidden;
+    }
+
+    .section__grid {
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 32px;
+      gap: 32px;
+      padding: 64px 0;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 16px;
+      z-index: 1;
+      position: relative;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px #111;
+      background: rgba(0,0,255,0.48);
+      padding: 32px;
+      border-radius: 32px;
+      width: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: flex-end;
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+      cursor: none;
+      transition: background 0.48s ease, box-shadow 0.48s ease;
+      border: 4px solid #111;
+    }
+
+    .card:before {
+      --size: 0px;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      content: '';
+      position: absolute;
+      transform: translate(-50%, -50%);
+      transition: width 0.48s ease, height 0.48s ease;
+      z-index: 1;
+      border-radius: 50%;
+      background: rgba(255,0,0,0.24);
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 32px #111;
+    }
+
+    .card:hover:before {
+      --size: 300px;
+    }
+
+    .card__image {
+      position: absolute;
+      z-index: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-mask-image: linear-gradient(#222 48%, transparent);
+      mask-image: linear-gradient(#222 48%, transparent);
+    }
+
+    .card__image img {
+      width: 100%;
+      height: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card__title {
+      z-index: 1;
+      pointer-events: none;
+      font-size: 24px;
+      text-align: right;
+      width: 100%;
+      color: rgba(255,255,255,0.48);
+    }
+
+    .card__title b {
+      font-size: 32px;
+      margin-left: 8px;
+      color: #fff;
+    }
+
+    .shape {
+      -webkit-animation: move 3s ease-in-out infinite alternate;
+      animation: move 3s ease-in-out infinite alternate;
+      --size: 600px;
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border: 8px solid #e03616;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      opacity: 0.64;
+      transform: translateY(-50%) translateX(-50%);
+    }
+
+    @media (max-width: 639.98px) {
+      .section__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @-webkit-keyframes move {
+      0% {
+        opacity: 0.64;
+        transform: translateY(-50%) translateX(-50%) scale(0.9);
+      }
+      100% {
+        opacity: 0.8;
+        transform: translateY(-50%) translateX(-50%) scale(1);
+      }
+    }
+
+    @keyframes move {
+      0% {
+        opacity: 0.64;
+        transform: translateY(-50%) translateX(-50%) scale(0.9);
+      }
+      100% {
+        opacity: 0.8;
+        transform: translateY(-50%) translateX(-50%) scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="section">
+    <div class="container">
+      <div class="section__grid">
+        <div class="section__shape shape"></div>
+        <a class="section__card card" href="{% url 'main_page' %}" style="text-decoration: none;">
+              <div class="card__image"><img src="{% static 'assets/photos/film.jpg' %}" alt=""/></div>
+          <div class="card__title">go to <b>Movies & Series</b></div>
+        </a>
+          <a class="section__card card" href="{% url 'main_page' %}" style="text-decoration: none;">
+              <div class="card__image"><img src="{% static 'assets/photos/pxfuel.jpg' %}" alt=""/></div>
+          <div class="card__title">go to <b>Books</b></div>
+        </a>
+      </div>
+    </div>
+  </div>
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+          let rect = e.target.getBoundingClientRect();
+          let x = e.clientX - rect.left;
+          let y = e.clientY - rect.top;
+          card.style.setProperty('--x', x + 'px');
+          card.style.setProperty('--y', y + 'px');
+        });
+      });
+    });
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+
+{% endblock %}

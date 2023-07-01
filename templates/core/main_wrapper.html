@@ -26,16 +26,22 @@
         background-image: linear-gradient(to bottom, rgb(203, 17, 17), rgba(203, 17, 17, 0) 49%, rgba(33, 20, 190, 0) 51%, rgb(33, 20, 190));
         background-repeat: repeat-x;
     }
-    .gradient-custom {
-/* fallback for old browsers */
-background: #cb1111;
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #cb1111;
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgb(203, 17, 17), rgb(33, 20, 190));
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgb(203, 17, 17), rgb(33, 20, 190));
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgb(203, 17, 17), rgb(33, 20, 190))
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgb(203, 17, 17), rgb(33, 20, 190));
+
+  /* Set background size and height to cover the entire screen */
+  background-size: cover;
+  height: 100vh;
 }
+
+
     </style>
 </head>
 <body>

@@ -1,0 +1,30 @@
+{% extends 'core/main_wrapper.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="object-fit">
+      <div class="object-fit__flex">
+        {% for book in books_list %}
+        <div class="object-fit__col">
+          <div class="object-fit__card">
+              {% if book.image %}
+            <div class="object-fit__image"><img src="{{ book.image.url }}" alt="" /></div>
+              {% endif %}
+            <div class="object-fit__body">
+              <div class="object-fit__title">{{ book.title }}</div>
+              <div class="object-fit__text">{{ book.description }}</div>
+                <br>
+              <div>
+                <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'book_detail' book.id %}';">View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

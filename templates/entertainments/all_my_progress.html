@@ -1,0 +1,48 @@
+{% extends 'core/main_wrapper.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-wrapper" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+  <div class="container">
+    <div class="object-fit">
+      <div class="object-fit__flex">
+        {% for progress in progress_list %}
+        <div class="object-fit__col">
+          <div class="object-fit__card">
+            {% if progress.book %}
+                <div class="object-fit__image"><img src="{{ progress.book.image.url }}" alt="" /></div>
+            {% elif progress.movie %}
+                <div class="object-fit__image"><img src="{{ progress.movie.image.url }}" alt="" /></div>
+            {% elif progress.tvseries %}
+                <div class="object-fit__image"><img src="{{ progress.tvseries.image.url }}" alt="" /></div>
+            {% endif %}
+            <div class="object-fit__body">
+            {% if progress.book %}
+              <div class="object-fit__title">{{ progress.book.title }}</div>
+              <div class="object-fit__text">{{ progress.book.description }}</div>
+            {% elif progress.movie %}
+              <div class="object-fit__title">{{ progress.movie.title }}</div>
+              <div class="object-fit__text">{{ progress.movie.description }}</div>
+            {% elif progress.tvseries %}
+              <div class="object-fit__title">{{ progress.tvseries.title }}</div>
+              <div class="object-fit__text">{{ progress.tvseries.description }}</div>
+            {% endif %}
+              <br>
+              <div>
+                {% if progress.book %}
+                    <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'book_detail' progress.book.id %}';">View</button>
+                {% elif progress.movie %}
+                    <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'movie_detail' progress.movie.id %}';">View</button>
+                {% elif progress.tvseries %}
+                    <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'tvseries_detail' progress.tvseries.id %}';">View</button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

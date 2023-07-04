@@ -1,0 +1,30 @@
+{% extends 'core/main_wrapper.html' %}
+{% load static %}
+
+{% block main %}
+<div class="main-wrapper">
+  <div class="container">
+    <div class="object-fit">
+      <div class="object-fit__flex">
+        {% for movie in movies_list %}
+        <div class="object-fit__col">
+          <div class="object-fit__card">
+            {% if movie.image %}
+            <div class="object-fit__image"><img src="{{ movie.image.url }}" alt="" /></div>
+            {% endif %}
+            <div class="object-fit__body">
+              <div class="object-fit__title">{{ movie.title }}</div>
+              <div class="object-fit__text">{{ movie.description }}</div>
+              <br>
+              <div>
+                <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'movie_detail' movie.id %}';">View</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

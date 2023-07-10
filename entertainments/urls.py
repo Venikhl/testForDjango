@@ -13,4 +13,7 @@ urlpatterns = [
     path('all/books/create_progress/', views.create_book_progress, name='create_book_progress'),
     path('all/tvseries/create_progress/', views.create_tvseries_progress, name='create_tvseries_progress'),
     path('all/mine/', views.all_my_progress, name='all_my_progress'),
+    path('all/episodes/<int:episode_id>/', views.episode_detail, name='episode_detail'),
+    path('all/episodes/create_progress/', views.create_episode_progress, name='create_episode_progress'),
+    path('all/episodes/remove_progress/', views.remove_episode_progress, name='remove_episode_progress'),
 ]

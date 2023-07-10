@@ -1,0 +1,85 @@
+{% extends 'core/main_wrapper.html' %}
+{% load static %}
+
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- ... Остальные мета-теги и стили ... -->
+    </head>
+    <body class="bg-dark d-flex flex-column min-vh-100">
+        <main class="flex-shrink-0 core-wrapper min-vh-100 d-flex justify-content-center align-items-center">
+            <!-- Header -->
+            <header class="py-5">
+                <div class="container px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-8 col-xl-7 col-xxl-6">
+                            <div class="my-5 text-center text-xl-start">
+                                <h1 class="display-5 fw-bolder text-white mb-2">{{ episode.title }}</h1>
+                                <p class="lead fw-normal text-white-50 mb-4">{{ episode.description }}</p>
+                                {% if user.is_authenticated %}
+                                    {% if has_watched %}
+                                        <p class="lead fw-normal text-white mb-4">Current status: Watched</p>
+                                        <button class="btn-hover color-2" onclick="removeProgress({{ episode.id }}); location.reload();">
+                                            Remove from Watched
+                                        </button>
+                                    {% else %}
+                                        <p class="lead fw-normal text-white mb-4">Current status: Not watched</p>
+                                        <button class="btn-hover color-1" onclick="createProgress({{ episode.id }}, true); location.reload();">
+                                            Mark as Watched
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
+                            <img class="img-fluid rounded-3 my-5" src="{{ episode.image.url }}" alt="..." />
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </main>
+
+        <script>
+            function createProgress(episodeId, watchedStatus) {
+                var csrftoken = getCookie('csrftoken');
+                var formData = new FormData();
+                formData.append('episode_id', episodeId);
+                formData.append('progress_type', 'tvseries');
+                formData.append('status', 'completed');
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{% url "create_episode_progress" %}', true);
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.send(formData);
+            }
+
+            function removeProgress(episodeId) {
+                var csrftoken = getCookie('csrftoken');
+                var formData = new FormData();
+                formData.append('episode_id', episodeId);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{% url "remove_episode_progress" %}', true);
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+                xhr.send(formData);
+            }
+
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        </script>
+    </body>
+</html>
+{% endblock %}

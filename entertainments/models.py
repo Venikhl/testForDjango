@@ -12,6 +12,7 @@ class Movie(models.Model):
     image = models.ImageField(upload_to='movies/', null=True, blank=True)
     description = models.TextField(null=True)
 
+
 class TVSeries(models.Model):
     title = models.CharField(max_length=100)
     director = models.CharField(max_length=100, null=True)
@@ -22,6 +23,15 @@ class TVSeries(models.Model):
     image = models.ImageField(upload_to='tvseries/', null=True, blank=True)
     description = models.TextField(null=True)
 
+
+class Episode(models.Model):
+    title = models.CharField(max_length=100)
+    tvseries = models.ForeignKey(TVSeries, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='episodes/', null=True, blank=True)
+    description = models.TextField(null=True)
+    release_date = models.DateField(null=True)
+
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100, null=True)
@@ -31,7 +41,6 @@ class Book(models.Model):
     publication_year = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='books/', null=True, blank=True)
     description = models.TextField(null=True)
-
 
 
 class Progress(models.Model):
@@ -54,7 +63,7 @@ class Progress(models.Model):
     tvseries = models.ForeignKey(TVSeries, on_delete=models.CASCADE, null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True, blank=True)
     minutes_watched = models.PositiveIntegerField(default=0)
-    episodes_watched = models.PositiveIntegerField(default=0)
+    episodes_watched = models.ManyToManyField(Episode, blank=True)
     pages_read = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='watching_reading')
 

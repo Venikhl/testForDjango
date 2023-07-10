@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block main %}
-<div class="main-wrapper">
+<div class="main-wrapper pt-5 pb-5">
   <div class="container">
     <div class="object-fit">
       <div class="object-fit__flex">
@@ -14,7 +14,7 @@
             {% endif %}
             <div class="object-fit__body">
               <div class="object-fit__title">{{ movie.title }}</div>
-              <div class="object-fit__text">{{ movie.description }}</div>
+              <div class="object-fit__text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;">{{ movie.description }}</div>
               <br>
               <div>
                 <button class="btn-hover color-1" type="submit" style="display: block; margin: 0 auto;" onclick="window.location.href = '{% url 'movie_detail' movie.id %}';">View</button>

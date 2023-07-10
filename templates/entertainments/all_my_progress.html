@@ -19,13 +19,13 @@
             <div class="object-fit__body">
             {% if progress.book %}
               <div class="object-fit__title">{{ progress.book.title }}</div>
-              <div class="object-fit__text">{{ progress.book.description }}</div>
+              <div class="object-fit__text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;">{{ progress.book.description }}</div>
             {% elif progress.movie %}
               <div class="object-fit__title">{{ progress.movie.title }}</div>
-              <div class="object-fit__text">{{ progress.movie.description }}</div>
+              <div class="object-fit__text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;">{{ progress.movie.description }}</div>
             {% elif progress.tvseries %}
               <div class="object-fit__title">{{ progress.tvseries.title }}</div>
-              <div class="object-fit__text">{{ progress.tvseries.description }}</div>
+              <div class="object-fit__text" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; width: 100%;">{{ progress.tvseries.description }}</div>
             {% endif %}
               <br>
               <div>

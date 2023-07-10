@@ -1,4 +1,4 @@
-from .models import Book, TVSeries, Movie, Progress
+from .models import Book, TVSeries, Movie, Progress, Episode
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 
@@ -27,17 +27,51 @@ def all_tvseries(request):
 
 def movie_detail(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    return render(request, 'entertainments/movie_detail.html', {'movie': movie})
+    try:
+        progress_element = Progress.objects.get(user=request.user, movie=movie)
+    except Progress.DoesNotExist:
+        progress_element = "none"
+        pass
+    return render(request, 'entertainments/movie_detail.html',
+                  {'movie': movie, 'progress_element': progress_element})
 
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'entertainments/book_detail.html', {'book': book})
+    try:
+        progress_element = Progress.objects.get(user=request.user, book=book)
+    except Progress.DoesNotExist:
+        progress_element = "none"
+        pass
+    return render(request, 'entertainments/book_detail.html',
+                  {'book': book, 'progress_element': progress_element})
 
 
 def tvseries_detail(request, tvseries_id):
     tvseries = get_object_or_404(TVSeries, pk=tvseries_id)
-    return render(request, 'entertainments/tvseries_detail.html', {'tvseries': tvseries})
+    try:
+        progress_element = Progress.objects.get(user=request.user, tvseries=tvseries)
+    except Progress.DoesNotExist:
+        progress_element = "none"
+        pass
+    episodes = Episode.objects.filter(tvseries=tvseries)
+    return render(request, 'entertainments/tvseries_detail.html',
+                  {'tvseries': tvseries, 'progress_element': progress_element, 'episodes': episodes})
+
+def episode_detail(request, episode_id):
+    episode = get_object_or_404(Episode, pk=episode_id)
+    has_watched = False
+    try:
+        progress_element = Progress.objects.get(user=request.user, tvseries=episode.tvseries)
+        if progress_element.episodes_watched.filter(pk=episode_id).exists():
+            has_watched = True
+    except Progress.DoesNotExist:
+        progress_element = None
+        pass
+
+    return render(request, 'entertainments/episode_detail.html',
+                  {'episode': episode, 'has_watched': has_watched, 'progress_element': progress_element})
+
 
 def create_movie_progress(request):
     if request.method == 'POST':
@@ -104,6 +138,42 @@ def create_tvseries_progress(request):
 
     return JsonResponse({'status': 'error'})
 
+def create_episode_progress(request):
+    if request.method == 'POST':
+        episode_id = request.POST.get('episode_id')
+        user = request.user
+        episode = get_object_or_404(Episode, id=episode_id)
+        status = request.POST.get('status')
+        progress_type = 'tvseries'
+
+        try:
+            progress = Progress.objects.get(user=user, tvseries=episode.tvseries)
+        except Progress.DoesNotExist:
+            progress = Progress.objects.create(user=user, tvseries=episode.tvseries, progress_type=progress_type, status=status)
+
+        progress.episodes_watched.add(episode)
+        progress.save()
+
+        return JsonResponse({'status': 'success'})
+
+    return JsonResponse({'status': 'error'})
+
+
+def remove_episode_progress(request):
+    if request.method == 'POST':
+        episode_id = request.POST.get('episode_id')
+        user = request.user
+        episode = get_object_or_404(Episode, id=episode_id)
+
+        try:
+            progress = Progress.objects.get(user=user, tvseries=episode.tvseries)
+            progress.episodes_watched.remove(episode)
+            progress.save()
+            return JsonResponse({'status': 'success'})
+        except Progress.DoesNotExist:
+            pass
+
+    return JsonResponse({'status': 'error'})
 
 def all_my_progress(request):
     progress_list = Progress.objects.all()

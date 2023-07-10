@@ -2,143 +2,199 @@
 {% load static %}
 
 {% block main %}
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
         <title>Modern Business - Start Bootstrap Template</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
         <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
         <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{% static 'assets/css/element_style.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/element_style.css' %}" rel="stylesheet">
+        <link href="{% static 'assets/css/style_for_episodes.css' %}" rel="stylesheet">
+        <style>
+            html,
+            body {
+                height: 100%;
+            }
+
+            .core-wrapper {
+                min-height: 100%;
+            }
+        </style>
+
     </head>
-    <body class="d-flex flex-column h-100">
-        <main class="flex-shrink-0">
-            <!-- Header-->
-            <header class="bg-dark py-5">
-                <div class="container px-5">
-                    <div class="row gx-5 align-items-center justify-content-center">
-                        <div class="col-lg-8 col-xl-7 col-xxl-6">
-                            <div class="my-5 text-center text-xl-start">
-                                <h1 class="display-5 fw-bolder text-white mb-2">{{ tvseries.title }}</h1>
-                                <p class="lead fw-normal text-white-50 mb-4">{{ tvseries.description }}</p>
+    <body class="d-flex flex-column min-vh-100">
+    <main class="flex-shrink-0 core-wrapper min-vh-100">
+        <!-- Header -->
+        <header class="bg-dark py-5">
+            <div class="container px-5">
+                <div class="row gx-5 align-items-center justify-content-center">
+                    <div class="col-lg-8 col-xl-7 col-xxl-6">
+                        <div class="my-5 text-center text-xl-start">
+                            <h1 class="display-5 fw-bolder text-white mb-2">{{ tvseries.title }}</h1>
+                            <p class="lead fw-normal text-white-50 mb-4">{{ tvseries.description }}</p>
+                            {% if user.is_authenticated %}
+                                {% if progress_element != "none" %}
+                                    <p class="lead fw-normal text-white mb-4">Current
+                                        status: {{ progress_element.status }}</p>
+                                {% endif %}
                                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                                    <button class="btn-hover color-1" onclick="createProgress('completed')">Completed</button>
-                                    <button class="btn-hover color-2" onclick="createProgress('watching_reading')">Currently</button>
-                                    <button class="btn-hover color-3" onclick="createProgress('abandoned')">Abandoned</button>
-                                    <button class="btn-hover color-4" onclick="createProgress('favourite')">Favourite</button>
+                                    {% csrf_token %}
+                                    <button class="btn-hover color-1"
+                                            onclick="createProgress('completed'); location.reload();">Completed
+                                    </button>
+                                    <button class="btn-hover color-2"
+                                            onclick="createProgress('watching_reading'); location.reload();">Currently
+                                    </button>
+                                    <button class="btn-hover color-3"
+                                            onclick="createProgress('abandoned'); location.reload();">Abandoned
+                                    </button>
+                                    <button class="btn-hover color-4"
+                                            onclick="createProgress('favourite'); location.reload();">Favourite
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="{{ tvseries.image.url }}" alt="..." /></div>
-                    </div>
-                </div>
-            </header>
-            <!-- Features section-->
-            <section class="py-5" id="features">
-                <div class="container px-5 my-5">
-                    <div class="row gx-5">
-                        <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">Some additional info:</h2></div>
-                        <div class="col-lg-8">
-                            <div class="row gx-5 row-cols-1 row-cols-md-2">
-                                <div class="col mb-5 h-100">
-                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
-                                    <h2 class="h5">Director</h2>
-                                    <p class="mb-0">{{ tvseries.director }}</p>
-                                </div>
-                                <div class="col mb-5 h-100">
-                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
-                                    <h2 class="h5">Release year</h2>
-                                    <p class="mb-0">{{ tvseries.release_year }}</p>
-                                </div>
-                                <div class="col mb-5 mb-md-0 h-100">
-                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                                    <h2 class="h5">Genre</h2>
-                                    <p class="mb-0">{{ tvseries.genre }}</p>
-                                </div>
-                                <div class="col h-100">
-                                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
-                                    <h2 class="h5">Rating</h2>
-                                    <p class="mb-0">{{ tvseries.rating }}</p>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                </div>
-            </section>
-            <!-- Testimonial section-->
-            <div class="py-5 bg-light">
-                <div class="container px-5 my-5">
-                    <div class="row gx-5 justify-content-center">
-                        <div class="col-lg-10 col-xl-7">
-                            <div class="text-center">
-                                <div class="fs-4 mb-4 fst-italic">"Working with Start Bootstrap templates has saved me tons of development time when building new projects! Starting with a Bootstrap template just makes things easier!"</div>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
-                                    <div class="fw-bold">
-                                        Tom Ato
-                                        <span class="fw-bold text-primary mx-1">/</span>
-                                        CEO, Pomodoro
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
+                                                                                       src="{{ tvseries.image.url }}"
+                                                                                       alt="..."/></div>
                 </div>
             </div>
-        </main>
-    <script>
-    function createProgress(type) {
+        </header>
 
-        // Получение CSRF-токена из cookie
-var csrftoken = getCookie('csrftoken');
+        <!-- Features section -->
+        <section class="py-5" id="features">
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">Some additional info:</h2></div>
+                    <div class="col-lg-8">
+                        <div class="row gx-5 row-cols-1 row-cols-md-2">
+                            <div class="col mb-5 h-100">
+                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
+                                        class="bi bi-collection"></i></div>
+                                <h2 class="h5">Director</h2>
+                                <p class="mb-0">{{ tvseries.director }}</p>
+                            </div>
+                            <div class="col mb-5 h-100">
+                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
+                                        class="bi bi-building"></i></div>
+                                <h2 class="h5">Release year</h2>
+                                <p class="mb-0">{{ tvseries.release_year }}</p>
+                            </div>
+                            <div class="col mb-5 mb-md-0 h-100">
+                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
+                                        class="bi bi-toggles2"></i></div>
+                                <h2 class="h5">Genre</h2>
+                                <p class="mb-0">{{ tvseries.genre }}</p>
+                            </div>
+                            <div class="col h-100">
+                                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i
+                                        class="bi bi-toggles2"></i></div>
+                                <h2 class="h5">Rating</h2>
+                                <p class="mb-0">{{ tvseries.rating }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    <section id="features" style="background: rgba(0,0,0,0.1)">
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mt-5">Episodes:</h2></div>
+                </div>
+            </div>
+        <div class="custom-container">
+            <div class="custom-section">
+                <div class="custom-section__wrapper">
+                    {% for episode in episodes %}
+                    <div class="custom-card" onclick="window.location.href = '{% url 'episode_detail' episode.id %}';">
+                        <a href="{% url 'episode_detail' episode.id %}">
+                            <div class="custom-card__image"><img src="{{ episode.image.url }}" alt=""/></div>
+                            <div class="custom-card__body">
+                                <div class="custom-card__title"><span>{{ episode.title }}</span></div>
+                                <div class="custom-card__price"><span>{% if episode.release_date %}{{ episode.release_date }}{% endif %}</span></div>
+                                <div class="custom-card__colors">
+                                    <div class="custom-card__color" style="--color:#ad53a2"></div>
+                                    <div class="custom-card__color" style="--color:#ff0c4f"></div>
+                                    <div class="custom-card__color" style="--color:#f60804"></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </section>
+    </main>
+
+    {#        {% block episodes %}#}
+    {#            {% include 'entertainments/episode_detail.html' %}#}
+    {#        {% endblock %}#}
+    {##}
+    {#{% for episode in episodes %}#}
+    {#  <div class="container" style="height: 300px; overflow-y: scroll;">#}
+    {#    <div class="row">#}
+    {#      <div class="col-sm-4">#}
+    {#        <div class="card">#}
+    {#          <img src="{{ episode.image.url }}" class="card-img-top" alt="Episode 1">#}
+    {#          <div class="card-body">#}
+    {#            <h5 class="card-title">{{ episode.title }}</h5>#}
+    {#            <p class="card-text">{{ episode.description }}</p>#}
+    {#          </div>#}
+    {#        </div>#}
+    {#      </div>#}
+    {#{% endfor %}#}
+    {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+    <script>
+        function createProgress(type) {
+
+            // Получение CSRF-токена из cookie
+            var csrftoken = getCookie('csrftoken');
 
 // Создание объекта FormData и добавление данных
-var formData = new FormData();
-formData.append('tvseries', {{ tvseries.id }});
-formData.append('progress_type', 'tvseries');
-formData.append('status', type);
+            var formData = new FormData();
+            formData.append('tvseries', {{ tvseries.id }});
+            formData.append('progress_type', 'tvseries');
+            formData.append('status', type);
 
 // Отправка AJAX-запроса на сервер
-var xhr = new XMLHttpRequest();
-xhr.open('POST', '{% url "create_tvseries_progress" %}', true);
-xhr.setRequestHeader('X-CSRFToken', csrftoken);  // Установка заголовка с CSRF-токеном
-xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var response = JSON.parse(xhr.responseText);
-        if (response.status === 'success') {
-            alert('Progress created successfully!');
-        } else {
-            alert('Error creating progress!');
-        }
-    }
-};
-xhr.send(formData);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "create_tvseries_progress" %}', true);
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);  // Установка заголовка с CSRF-токеном
+            xhr.send(formData);
 
 // Функция для получения значения CSRF-токена из cookie
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
             }
-        }
-    }
-    return cookieValue;
-}
 
-    }
-</script>
+        }
+    </script>
     </body>
-</html>
+    </html>
 
 {% endblock %}
+
+

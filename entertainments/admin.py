@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Movie, TVSeries, Progress
+from .models import Book, Movie, TVSeries, Progress, Episode
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -13,6 +13,14 @@ class MovieAdmin(admin.ModelAdmin):
 class TVSeriesAdmin(admin.ModelAdmin):
     list_display = ('title', 'director', 'total_episodes', 'rating', 'genre', 'release_year')
 
+@admin.register(Episode)
+class EpisodeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'tvseries', 'image', 'description')
+
 @admin.register(Progress)
 class ProgressAdmin(admin.ModelAdmin):
-    list_display = ('user', 'progress_type', 'movie', 'tvseries', 'book', 'minutes_watched', 'episodes_watched', 'pages_read', 'status')
+    list_display = ('user', 'progress_type', 'movie', 'tvseries', 'book', 'get_episodes_watched', 'pages_read', 'status')
+
+    def get_episodes_watched(self, obj):
+        return ', '.join([str(episode) for episode in obj.episodes_watched.all()])
+    get_episodes_watched.short_description = 'Episodes Watched'

@@ -1,7 +1,9 @@
+# Page for creating all the tables (and connections between them) in the database.
 from django.db import models
 from django.contrib.auth.models import User
 
 
+# Movie model for database.
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     director = models.CharField(max_length=100, null=True)
@@ -13,6 +15,7 @@ class Movie(models.Model):
     description = models.TextField(null=True)
 
 
+# TV Series model for database.
 class TVSeries(models.Model):
     title = models.CharField(max_length=100)
     director = models.CharField(max_length=100, null=True)
@@ -24,6 +27,7 @@ class TVSeries(models.Model):
     description = models.TextField(null=True)
 
 
+# Episode model for database.
 class Episode(models.Model):
     title = models.CharField(max_length=100)
     tvseries = models.ForeignKey(TVSeries, on_delete=models.CASCADE)
@@ -32,6 +36,7 @@ class Episode(models.Model):
     release_date = models.DateField(null=True)
 
 
+# Book model for database.
 class Book(models.Model):
     title = models.CharField(max_length=100)
     author = models.CharField(max_length=100, null=True)
@@ -43,13 +48,17 @@ class Book(models.Model):
     description = models.TextField(null=True)
 
 
+# Progress model for database.
 class Progress(models.Model):
+    # Available types of entertainments to store in Progress model.
+    # User can choose one of them in a single Progress object.
     PROGRESS_TYPE_CHOICES = (
         ('movie', 'Movie'),
         ('tvseries', 'TV Series'),
         ('book', 'Book'),
     )
 
+    # Possible status list for a Progress model. User can choose one of them in a single Progress object.
     STATUS_CHOICES = (
         ('favorite', 'Favorite'),
         ('watching_reading', 'Watching/Reading'),
@@ -62,11 +71,18 @@ class Progress(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, null=True, blank=True)
     tvseries = models.ForeignKey(TVSeries, on_delete=models.CASCADE, null=True, blank=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True, blank=True)
+
+    # Can be used in future work. Used to store how many minutes of a movie a concrete user watched.
     minutes_watched = models.PositiveIntegerField(default=0)
+
+    # Can be used in future work. Used to store how many episodes of a TV series a concrete user watched.
     episodes_watched = models.ManyToManyField(Episode, blank=True)
+
+    # Can be used in future work. Used to store how many pages of a book a concrete user watched.
     pages_read = models.PositiveIntegerField(default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='watching_reading')
 
+    # Function for making sure that user cannot choose illegal progress in a concrete progress type.
     def save(self, *args, **kwargs):
         if self.progress_type == 'movie':
             self.episodes_watched = 0

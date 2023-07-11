@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from members.forms import NewUserForm
 
 
+# Function for logging in a user via POST request.
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -21,12 +22,14 @@ def login_user(request):
         return render(request, 'auth/login.html', {})
 
 
+# Function for logging out user via build in function 'logout()'.
 def logout_user(request):
     logout(request)
     messages.success(request, "You have successfully logged out")
     return redirect('main_page')
 
 
+# Function for registering user via POST request.
 def register_user(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)

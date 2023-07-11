@@ -3,8 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-# Create your forms here.
-
+# Form for creating an extended version of a build in user model.
 class NewUserForm(UserCreationForm):
     email = forms.EmailField()
 

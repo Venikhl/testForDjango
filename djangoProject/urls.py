@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+'''
+All the main urls of the project. Other urls which go down the hierarchy are in the corresponding modules in the urls.py.
+'''
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
@@ -27,7 +30,9 @@ urlpatterns = [
     path('entertainments/', include('entertainments.urls')),
 ]
 
-
+'''
+Media links added by settings.
+'''
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

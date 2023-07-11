@@ -128,6 +128,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Media routs
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'images'

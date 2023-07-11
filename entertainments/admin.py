@@ -1,3 +1,4 @@
+# Page that is needed for showing all the modules in admin panel.
 from django.contrib import admin
 from .models import Book, Movie, TVSeries, Progress, Episode
 
